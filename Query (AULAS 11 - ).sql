@@ -140,6 +140,9 @@ WHERE nome LIKE 'a%';
 
 
 
+
+
+
 ////WILDCARDS (CARTAS CORINGA);
 	Na forma como está abaixo, significa que vai aparecer qualquer coisa ('%') encerrada com a letra 'a';
 
@@ -147,8 +150,85 @@ SELECT * FROM cursos
 where nome like '%a';
 
 
+	Agora, se eu quiser, independete da posição, algo que tenha a letra "A" em qualquer lugar do nome, o comando vai ser assim:;
+    
+SELECT * FROM cursos
+WHERE nome LIKE '%a%'
+ORDER BY ano, nome;
+
+	E se eu quiser sem a letra A na palavra?;
+    
+SELECT * FROM cursos
+WHERE nome NOT LIKE '%a%';
+
+	Pra pegar cursos que tenham alguma coisa específica no início e uma coisa específica no final OU NADA:;
+
+SELECT * FROM cursos
+WHERE nome LIKE 'ph%p';
+
+	Caso eu queira que tenha QUALQUER COISA OBRIGATÓRIAMENTE NO FINAL APÓS O 'P', eu uso outra wildcard:;
+    
+SELECT * FROM cursos
+WHERE nome LIKE 'PH%P_';
+
+SELECT * FROM cursos
+WHERE nome LIKE 'P_P%';
+
+SELECT * FROM gafanhotos 
+WHERE nome LIKE '%silva%';
 
 
 
 
 
+
+
+
+
+//Distinguindo coisas com DISTINCT; 
+	Imagine que eu tenho vários gafanhotos que moram em diversas localidades do globo. Várias localidades vão estar repetidas, então 
+    pra isso eu uso o distinct. Basicamente eu vou pegar todos os países diferentes que tenho na minha coluna, e não onde cada um mora.
+    
+    Eu vou pegar todos os dados apenas uma vez só e ignorar as repetições;
+    
+SELECT nacionalidade from gafanhotos;
+
+SELECT DISTINCT nacionalidade FROM gafanhotos
+where nacionalidade like 'A%'
+ORDER BY nacionalidade;
+
+
+
+
+
+
+
+
+//FUNÇÕES DE AGREGAÇÃO. 
+	Servem para totalizar ou agregar alguma coisa. Lembrando que essas funções servem pra mostrar/selecionar APENAS uma tupla como resultado
+    e não fazem a seleção de MIN e MAX para duas coisas, por exemplo.
+    
+    - COUNT() serve para fazer a contagem da quantidade de elemtentos da coluna de acordo com os parâmetros especificados na busca;
+    
+SELECT COUNT(nome) FROM gafanhotos
+where nacionalidade >= 40;
+
+
+	- MAX() serve para especificar qual a maior quantidade dentro da coluna especificada;
+    
+SELECT MAX(totaulas) FROM cursos
+WHERE ano = '2016';
+
+	- MIN() serve para especificar qual a menor quantidade dentro da coluna especificada;
+
+SELECT nome, MIN(totaulas) FROM cursos
+WHERE ano = '2016';
+
+
+	- SUM() serve para fazer a soma de registros da coluna especificada e com os parâmetros de seleção passados;
+    
+SELECT SUM(totaulas) FROM cursos WHERE ano = 2016;
+
+	- AVG() serve para tirar a média;
+    
+SELECT AVG(totaulas) FROM cursos WHERE ano = 2016;
