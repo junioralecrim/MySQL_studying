@@ -1,3 +1,20 @@
+////////////////// LISTA DE PARÂMETROS COM DO SELECT //////////////////;
+
+ORDER BY
+order by DESC
+BETWEEN
+AND, OR e NOT
+LIKE 
+like '%'
+like '_'
+DISTINCT
+COUNT()
+MAX()
+MIN()
+AVG()
+GROUP BY
+;
+
 ////////////////// AULA 11 - SELECT (PART 1) //////////////////;
 
 //TRADUZINDO A LINHA ABAIXO
@@ -285,6 +302,41 @@ WHERE sexo = 'm' and
 
 
 
+
+
+
+
+
+////////////////// AULA 12 - SELECT (PART 3) //////////////////;
+
+// AGRUPANDO dados. Isso é utilizado quando eu quero separar tuplas/registros por algum dado igual que estes tenham, como por exemplo a idade.;
+
+SELECT carga , COUNT(nome) FROM cursos
+GROUP BY carga;
+
+
+Eu basicamente estou contando quantos registros existem dentro de cada agrupamento;
+//EM BAIXO estou agrupando todos os cursos que tenham um total de aulas iguais e, logo em seguida, fazendo a conta desse total de registros
+dentro de cada um dos agrupamentos feitos;
+
+SELECT totaulas, count(*) FROM cursos
+group by totaulas
+order by totaulas;
+
+
+
+SELECT carga, count(*) FROM cursos
+where totaulas = 30
+group by carga;
+
+
+
+//COM O HAVING eu vou especificar algum parâmetro para mostrar com a contagem. Como, por exemplo, mostrar somente os cursos que tem a quantidade 
+de cursos com carga 30 (quando o count maior que 3 para aquele agrupamento. Se der menor que isso, não vai ser selecionado)
+SELECT carga, count(*) FROM cursos
+where totaulas = 30
+group by carga
+having count(*) > 1;
 
 
 
