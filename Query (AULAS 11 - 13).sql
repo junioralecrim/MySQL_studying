@@ -13,6 +13,7 @@ MAX()
 MIN()
 AVG()
 GROUP BY
+HAVING
 ;
 
 ////////////////// AULA 11 - SELECT (PART 1) //////////////////;
@@ -142,7 +143,7 @@ where totaulas < 10 and totaulas > 5;
 
 
 
-////////////////// AULA 11 - SELECT (PART 2) //////////////////
+////////////////// AULA 12 - SELECT (PART 2) //////////////////
 
 OPERADOR LIKE (like = parecido/semelhante. É Case Sensitive(não diferencia maiúsculas e minúsculas)). 
 Utilizado para procurar, dentro dos atributos/colunas selecionadas, alguma correspondência apenas por uma letra
@@ -226,9 +227,9 @@ ORDER BY nacionalidade;
     e não fazem a seleção de MIN e MAX para duas coisas, por exemplo.
     
     - COUNT() serve para fazer a contagem da quantidade de elemtentos da coluna de acordo com os parâmetros especificados na busca;
-    
-SELECT COUNT(nome) FROM gafanhotos
-where nacionalidade >= 40;
+//ESSE COUNT vai estar contando o que tiver selecionado a partir da condição abaixo (no caso, WHERE). 
+SELECT COUNT(peso) FROM gafanhotos
+where peso >= 100;
 
 
 	- MAX() serve para especificar qual a maior quantidade dentro da coluna especificada;
@@ -307,20 +308,29 @@ WHERE sexo = 'm' and
 
 
 
-////////////////// AULA 12 - SELECT (PART 3) //////////////////;
+////////////////// AULA 13 - SELECT (PART 3) //////////////////;
 
 // AGRUPANDO dados. Isso é utilizado quando eu quero separar tuplas/registros por algum dado igual que estes tenham, como por exemplo a idade.;
+// Se os registros estão agrupados, ele vai contar os registros que estão agrupados (por quantidade dentro do grupo);
 
-SELECT carga , COUNT(nome) FROM cursos
-GROUP BY carga;
+SELECT * FROM cursos;
+SELECT COUNT(*) FROM cursos
+WHERE totaulas >= 15
+GROUP BY totaulas;
+
+SELECT carga, count(*) FROM cursos
+where totaulas = 30
+group by carga; 
 
 
 Eu basicamente estou contando quantos registros existem dentro de cada agrupamento;
 //EM BAIXO estou agrupando todos os cursos que tenham um total de aulas iguais e, logo em seguida, fazendo a conta desse total de registros
 dentro de cada um dos agrupamentos feitos;
 
+ABAIXO, O QUE ESTÁ no GROUP é oq vai ser contado pelo COUNT é que vai ser contado a partir do que foi AGRUPADO abaixo também.;
+
 SELECT totaulas, count(*) FROM cursos
-group by totaulas
+group by carga
 order by totaulas;
 
 
@@ -331,12 +341,89 @@ group by carga;
 
 
 
-//COM O HAVING eu vou especificar algum parâmetro para mostrar com a contagem. Como, por exemplo, mostrar somente os cursos que tem a quantidade 
-de cursos com carga 30 (quando o count maior que 3 para aquele agrupamento. Se der menor que isso, não vai ser selecionado)
+//COM O HAVING eu vou especificar algum parâmetro para mostrar com a contagem. Por exemplo, só vou mostrar os resultados que o count der maior
+que 2;
+
+
 SELECT carga, count(*) FROM cursos
-where totaulas = 30
+where totaulas > 10
 group by carga
-having count(*) > 1;
+having count(*) >= 1 * 5 ;
+
+
+
+
+
+
+
+// O HAVING É SEMELHANTE AO WHERE PRO SELECT. Porém, a diferença do having é que eu só posso trabalhar com o grupo que eu agrupei.
+EX: Digamos que eu queira saber quos carros do mesmo modelo tem em uma tabela e também queira separar apenas os grupos que tenham
+mais de dois carros do mesmo modelo;
+
+select carga, count(carga) from cursos
+where totaulas > 5
+group by carga
+having carga > 10
+order by carga;
+
+
+select avg(carga) from cursos;
+
+select carga, count(carga) from cursos
+where ano > 2015
+group by carga;
+
+E se eu quiser mostrar apenas os cursos que tem acima da média total da carga? (no caso é 36.33);
+
+select carga, count(carga) from cursos
+where ano > 2015
+group by carga
+having carga > (select avg(carga) from cursos);
+
+
+
+
+//////////////// EXERCÍCIOS ///////////////;
+
+1) - UMA LISTA COM AS PROFISSÕES DOS GAFANHOTOS E SEUS RESPECTIVOS QUANTITATIVOS;
+
+SELECT * FROM gafanhotos;
+
+select profissao, count(profissao) from gafanhotos
+group by profissao;
+
+
+2) - QUANTOS GAFANHOTOS HOMENS E QUANTAS GAFANHOTAS MULHERES NASCERAM APÓS 01/01/2005;
+
+
+select sexo, count(sexo) from gafanhotos
+where nascimento > '2005-01-01'
+group by sexo;
+
+
+3) - UMA LISTA COM OS GAFANHOTOS QUE NASCERAM FORA DO BRASIL, MOSTRANDO O PAÍS DE ORIGEM
+E O TOTAL DE PESSOAS NASCIDAS LÁ. SÓ NOS INTERESSA OS PAÍSES QUE TIVERAM MAIS DE 3 GAFANHOTOS 
+COM ESSA NACIONALIDADE;
+
+
+select nacionalidade, count(nacionalidade) from gafanhotos
+where nacionalidade != 'Brasil'
+group by nacionalidade
+having count(nacionalidade) > 3;
+
+4) - UMA LISTA AGRUPADA PELA ALTURA DOS GAFANHOTOS, MOSTRANDO QUANTAS PESSOAS
+PESAM MAIS DE 100KG E QUE ESTÃO ACIMA DA MÉDIA DE ALTURA DE TODOS OS CADASTRADOS;
+
+select * from gafanhotos;
+
+select altura, count(altura) from gafanhotos
+where peso > 100 
+group by altura
+having altura > (select avg(altura) from gafanhotos)
+order by altura;
+
+
+select avg(altura) from gafanhotos;
 
 
 
