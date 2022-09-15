@@ -1,2 +1,2 @@
 # MySQL_studying
- Estudos de SQL Workbanch
+ Estudos de MySQL Workbanch

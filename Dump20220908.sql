@@ -62,7 +62,7 @@ CREATE TABLE `gafanhotos` (
   `nacionalidade` varchar(20) DEFAULT 'Brasil',
   `profissao` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
