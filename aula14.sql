@@ -187,7 +187,79 @@ WHERE salary >
 
 select salary 
 from employees as emp
-where salary > ()
+order by salary desc
+limit 1 offset 4; /* O offset omite o resultado. Nesse caso, eu quero mostrar apenas um
+resultado e omitir 4. Ou seja, vou estar pegando só o 5°*/
+
+select *
+from employees as emp
+order by salary desc
+limit 2 offset 4; /* primeira mostra quantas linhas quero pegar e a segunda, quantas quero pular antes de 
+pegar a primeira definida no limit*/
 
 
-select * from employees;
+
+/* 17. Escreva uma consulta para encontrar o 4º salário mínimo na tabela de funcionários.*/
+
+select salary
+from employees
+order by salary asc
+limit 1 offset 3;
+
+
+/*18. Escreva uma consulta para selecionar os últimos 10 registros de uma tabela*/
+
+
+select * from employees
+order by employee_id desc
+limit 10;
+
+
+/*
+19. Escreva uma consulta para listar o department_id do departamento e o nome de todos os departamentos 
+onde nenhum funcionário está trabalhando
+*/
+
+select department_id, department_name
+from departments
+where department_id not in(select department_id from employees);
+/*
+DESC TEXT: selecione o department_id, department_name dos departments 
+onde o department_id não corresponde a nenhum department_id da tabela dos funcionários
+*/
+
+
+
+
+/*
+20. Escreva uma consulta para obter 3 salários máximos.
+*/
+
+select distinct salary from employees
+order by salary desc
+limit 3;
+
+
+/* 21 Escreva uma consulta para obter 3 salários mínimos*/
+
+
+select distinct salary from employees
+order by salary asc
+limit 3;
+
+
+
+
+/* 22. Escreva uma consulta para obter o salário máximo dos funcionários */
+
+select salary from employees
+order by salary desc
+limit 1 offset 2;
+
+/*Escreva uma consulta para exibir o ID do empregado, nome, sobrenome, 
+salário de todos os funcionários cujo salário é acima da média para seus departamentos. */
+
+select employee_id, first_name, last_name, salary
+from employees as e
+where salary > (select avg(salary) from employees as emp
+                where emp.department_id = e.department_id);
